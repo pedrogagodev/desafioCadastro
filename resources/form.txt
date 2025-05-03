@@ -1,0 +1,13 @@
+1 - What is the pet's first and last name?
+
+2 - What type of pet is it (Dog/Cat)?
+
+3 - What is the animal's sex?
+
+4 - What is the address and neighborhood where it was found?
+
+5 - What is the pet's approximate age?
+
+6 - What is the pet's approximate weight?
+
+7 - What is the pet's breed?
