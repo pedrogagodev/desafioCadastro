@@ -14,11 +14,8 @@ public class ReadFile {
         this.file = new File(pathname);
     }
 
-    FileReader fr;
-
     public void printFile() {
-        try {
-            fr = new FileReader(this.file);
+        try(FileReader fr = new FileReader(this.file)) {
             int i;
             while((i= fr.read()) != -1) {
                 System.out.print((char)i);
