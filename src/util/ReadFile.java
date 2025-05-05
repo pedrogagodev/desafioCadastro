@@ -1,5 +1,6 @@
 package util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,5 +26,22 @@ public class ReadFile {
             logger.log(Level.SEVERE, "Error reading file", e);
         }
     }
+
+   public void printLine(int line) {
+       try(FileReader fr = new FileReader(file)) {
+           BufferedReader br = new BufferedReader(fr);
+           String question;
+           int currentLine = 0;
+           while((question = br.readLine()) != null) {
+               if (currentLine == line) {
+                   System.out.println(question);
+                   break;
+               }
+               currentLine++;
+           }
+       } catch (IOException ex) {
+           logger.log(Level.SEVERE, "Error reading file", ex);
+       }
+   }
 
 }
