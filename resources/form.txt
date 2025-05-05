@@ -1,0 +1,7 @@
+1 - What is the pet's first and last name (press ENTER to skip)?
+2 - What type of pet is it (Dog/Cat)?
+3 - What is the animal's gender?
+4 - What is the address and neighborhood where it was found?
+5 - What is the pet's approximate age (press ENTER to skip)?
+6 - What is the pet's approximate weight (press ENTER to skip)?
+7 - What is the pet's breed (press ENTER to skip)?
