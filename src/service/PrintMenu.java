@@ -6,10 +6,12 @@ import java.util.Scanner;
 public class PrintMenu {
 
     private RegisterPet registerService;
+    private ListAllPets listAllPetsService;
 
     public void setRegisterService(RegisterPet registerService) {
         this.registerService = registerService;
     }
+    public void setListAllPetsService(ListAllPets listAllPetsService) { this.listAllPetsService = listAllPetsService; }
 
 
     public void printInitialMenu() {
@@ -46,7 +48,7 @@ public class PrintMenu {
                         System.out.println("Delete");
                         break;
                     case 4:
-                        System.out.println("List all");
+                        listAllPetsService.listPets();
                         break;
                     case 5:
                         System.out.println("List one");
