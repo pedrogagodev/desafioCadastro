@@ -44,9 +44,9 @@ public class FileRepository {
         br.newLine();
         br.write("4 - " + pet.getPetAddress());
         br.newLine();
-        br.write("5 - " + (pet.getPetAge() == -1 ? "NOT INFORMED" : pet.getPetAge()));
+        br.write("5 - " + (pet.getPetAge() == -1 ? "NOT INFORMED" : pet.getPetAge() + " years"));
         br.newLine();
-        br.write("6 - " + (pet.getPetWeight() == -1 ? "NOT INFORMED" : pet.getPetWeight()));
+        br.write("6 - " + (pet.getPetWeight() == -1 ? "NOT INFORMED" : pet.getPetWeight()) + "kg");
         br.newLine();
         br.write("7 - " + (pet.getPetBreed().isEmpty() ? "NOT INFORMED" : pet.getPetBreed()));
         br.newLine();
