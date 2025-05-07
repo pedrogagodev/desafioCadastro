@@ -44,4 +44,24 @@ public class ReadFile {
        }
    }
 
+   public String getFormattedData(String filePath) {
+       StringBuilder sb = new StringBuilder();
+       try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+           String line;
+           while ((line = br.readLine()) != null) {
+               String[] parts = line.split(" - ", 2);
+
+               if (parts.length > 1) {
+                   sb.append(parts[1].trim()).append(", ");
+               }
+           }
+       } catch (IOException ex) {
+           ex.printStackTrace();
+       }
+       if (sb.length() > 2) {
+           sb.setLength(sb.length() - 2);
+       }
+       return sb.toString();
+   }
+
 }
