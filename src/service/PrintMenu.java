@@ -5,16 +5,11 @@ import java.util.Scanner;
 
 public class PrintMenu {
 
-    private RegisterPet registerService;
-    private ListAllPets listAllPetsService;
-    private ListSpecificPet listSpecificPet;
+    private PetService petService;
 
-    public void setRegisterService(RegisterPet registerService) {
-        this.registerService = registerService;
+    public void setPetService(PetService petService) {
+        this.petService = petService;
     }
-    public void setListAllPetsService(ListAllPets listAllPetsService) { this.listAllPetsService = listAllPetsService; }
-    public void setListSpecificPet(ListSpecificPet listSpecificPet) {this.listSpecificPet = listSpecificPet; }
-
 
     public void printInitialMenu() {
         Scanner scanner = new Scanner(System.in);
@@ -41,19 +36,19 @@ public class PrintMenu {
 
                 switch (userChoice) {
                     case 1:
-                        registerService.collectPetData();
+                        petService.registerPet();
                         break;
                     case 2:
                         System.out.println("Update");
                         break;
                     case 3:
-                        System.out.println("Delete");
+                        System.out.println("Delete ");
                         break;
                     case 4:
-                        listAllPetsService.listPets();
+                        petService.listAllPets();
                         break;
                     case 5:
-                        listSpecificPet.listPetsByCriteria();
+                        petService.listPetsByCriteria();
                         break;
                     case 6:
                         System.out.println("Exiting...");
