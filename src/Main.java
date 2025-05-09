@@ -1,6 +1,7 @@
 import collector.PetCollector;
 import repository.PetRepository;
 import service.ListAllPets;
+import service.ListSpecificPet;
 import service.PrintMenu;
 import service.RegisterPet;
 import util.ReadFile;
@@ -17,13 +18,16 @@ public class Main {
 
         RegisterPet registerService = new RegisterPet(petCollector, petRepository);
 
-        ReadFile readFile = new ReadFile("resources/registered-pets/20250506T16:11-NOTINFORMED.txt");
+        ReadFile readFile = new ReadFile("");
 
         ListAllPets listAllPets = new ListAllPets(readFile);
+
+        ListSpecificPet listSpecificPet = new ListSpecificPet(petCollector, readFile, scanner);
 
         PrintMenu mainMenu = new PrintMenu();
         mainMenu.setRegisterService(registerService);
         mainMenu.setListAllPetsService(listAllPets);
+        mainMenu.setListSpecificPet(listSpecificPet);
 
         mainMenu.printInitialMenu();
 
