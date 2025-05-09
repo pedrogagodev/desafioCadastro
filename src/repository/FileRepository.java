@@ -18,7 +18,7 @@ public class FileRepository {
     public void createFile(Pet pet) {
         String formattedPetName = pet.getName().replace(" ", "").toUpperCase();
         LocalDateTime dateTimeNow = LocalDateTime.now();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDate = dateTimeNow.format(myFormatObj);
         String date = formattedDate.replace("-", "").replace(" ", "T");
 
