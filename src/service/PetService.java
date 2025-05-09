@@ -1,29 +1,116 @@
 package service;
 
 import collector.PetCollector;
+import entity.Pet;
+import entity.PetAddress;
+import entity.enums.PetGender;
+import entity.enums.PetType;
+import repository.PetRepository;
 import util.ReadFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-public class ListSpecificPet {
+public class PetService {
     private final PetCollector petCollector;
-    private ReadFile petTxt;
+    private final PetRepository petRepository;
     private final Scanner scanner;
+    private List<String> filteredPets;
+    private static final Logger logger = Logger.getLogger(PetService.class.getName());
 
 
-    public ListSpecificPet(PetCollector petCollector, ReadFile petTxt, Scanner scanner) {
+    public PetService(PetCollector petCollector, PetRepository petRepository, Scanner scanner) {
         this.petCollector = petCollector;
-        this.petTxt = petTxt;
+        this.petRepository = petRepository;
         this.scanner = scanner;
+    }
+
+    public void registerPet() {
+
+        Pet pet = new Pet();
+
+        ReadFile form = new ReadFile("resources/form.txt");
+        int line = 0;
+
+
+        do {
+            form.printLine(line);
+
+            switch (line) {
+                case 0:
+                    pet.setName(petCollector.collectName());
+                    break;
+                case 1:
+                    int typeChoice = petCollector.collectPetType();
+
+                    if (typeChoice == 1) {
+                        pet.setPetType(PetType.DOG);
+                    } else if (typeChoice == 2) {
+                        pet.setPetType(PetType.CAT);
+                    }
+                    break;
+                case 2:
+                    int genderChoice = petCollector.collectPetGender();
+                    if (genderChoice == 1) {
+                        pet.setPetGender(PetGender.MALE);
+                    } else if (genderChoice == 2) {
+                        pet.setPetGender(PetGender.FEMALE);
+                    }
+                    break;
+                case 3:
+
+                    PetAddress petAddress = new PetAddress(petCollector.collectPetStreet(), petCollector.collectPetAddressNumber(), petCollector.collectPetNeighborhood());
+                    pet.setPetAddress(petAddress);
+                    break;
+
+                case 4:
+                    pet.setPetAge(petCollector.collectPetAge());
+                    break;
+
+                case 5:
+                    pet.setPetWeight(petCollector.collectPetWeight());
+                    break;
+
+                case 6:
+                    pet.setPetBreed(petCollector.collectPetBreed());
+                    break;
+            }
+            line++;
+        } while(line != 7);
+
+        petRepository.createPet(pet);
+    }
+
+    public void listAllPets() {
+        ReadFile petTxt;
+        List<Path> texts = List.of();
+        int petNumber = 1;
+
+        try(Stream<Path> stream = Files.walk(Paths.get("resources/registered-pets"))) {
+            texts =
+                    stream.filter(Files::isRegularFile)
+                            .filter(path -> path.getFileName().toString().endsWith(".txt"))
+                            .toList();
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, "Error reading file", ex);
+        }
+        System.out.println("=========== All pets info ===========");
+        for (Path s : texts) {
+            petTxt = new ReadFile(s.toString());
+            System.out.println(petNumber + " - " + petTxt.getFormattedData(s.toString()));
+            petNumber++;
+        }
     }
 
     public List<Path> searchPetsByName(String name) {
@@ -36,7 +123,7 @@ public class ListSpecificPet {
                     String fileName = path.getFileName().toString();
                     return fileName.contains(name.replace(" ", "").trim().toUpperCase());
                 }
-        ))) {
+                ))) {
             return stream.toList();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -62,6 +149,7 @@ public class ListSpecificPet {
         List<Path> pets;
         int petNumber;
         boolean itFound = false;
+        filteredPets = new ArrayList<>();
 
         String petName;
         String petGender;
@@ -113,6 +201,7 @@ public class ListSpecificPet {
                 }
 
 
+                ReadFile petTxt;
                 switch (userChoice) {
                     case 1:
                         System.out.println("Enter the name: ");
@@ -129,6 +218,8 @@ public class ListSpecificPet {
                             String petInfo = petTxt.getFormattedData(s.toString());
                             if (petInfo.contains(petType)) {
                                 System.out.println(petNumber + " - " + petInfo);
+                                filteredPets.add(petInfo);
+                                System.out.println(filteredPets.getFirst());
                                 petNumber++;
                             }
                         }
@@ -153,6 +244,7 @@ public class ListSpecificPet {
 
                             if (petInfo.contains(petType) && matcher.find()) {
                                 System.out.println(petNumber + " - " + petInfo);
+                                filteredPets.add(petInfo);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -186,6 +278,7 @@ public class ListSpecificPet {
 
                             if (petInfo.contains(petType) && ageMatcher.find()) {
                                 System.out.println(petNumber + " - " + petInfo);
+                                filteredPets.add(petInfo);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -219,6 +312,7 @@ public class ListSpecificPet {
 
                             if (petInfo.contains(petType) && weightMatcher.find()) {
                                 System.out.println(petNumber + " - " + petInfo);
+                                filteredPets.add(petInfo);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -250,6 +344,7 @@ public class ListSpecificPet {
 
                             if (petInfo.contains(petType) && breedMatcher.find()) {
                                 System.out.println(petNumber + " - " + petInfo);
+                                filteredPets.add(petInfo);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -295,6 +390,7 @@ public class ListSpecificPet {
                                     neighborhoodMatcher.find()) {
 
                                 System.out.println(petNumber + " - " + petInfo);
+                                filteredPets.add(petInfo);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -314,7 +410,7 @@ public class ListSpecificPet {
                         pets = searchPetsByName(petName);
                         petNumber = 1;
 
-                       agePattern = Pattern.compile("\\b" + petAge + "\\b", Pattern.CASE_INSENSITIVE);
+                        agePattern = Pattern.compile("\\b" + petAge + "\\b", Pattern.CASE_INSENSITIVE);
 
                         System.out.println("=========== Results ===========");
 
@@ -330,6 +426,7 @@ public class ListSpecificPet {
 
                             if (petInfo.contains(petType) && ageMatcher.find()) {
                                 System.out.println(petNumber + " - " + petInfo);
+                                filteredPets.add(petInfo);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -368,6 +465,7 @@ public class ListSpecificPet {
                                     weightMatcher.find()) {
 
                                 System.out.println(petNumber + " - " + petInfo);
+                                filteredPets.add(petInfo);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -403,6 +501,7 @@ public class ListSpecificPet {
 
                             if (petInfo.contains(petType) && weightMatcher.find()) {
                                 System.out.println(petNumber + " - " + petInfo);
+                                filteredPets.add(petInfo);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -441,6 +540,7 @@ public class ListSpecificPet {
                                     weightMatcher.find()) {
 
                                 System.out.println(petNumber + " - " + petInfo);
+                                filteredPets.add(petInfo);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -475,6 +575,7 @@ public class ListSpecificPet {
 
                             if (petInfo.contains(petType) && breedMatcher.find() && genderMatcher.find()) {
                                 System.out.println(petNumber + " - " + petInfo);
+                                filteredPets.add(petInfo);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -494,5 +595,9 @@ public class ListSpecificPet {
                 userChoice = 0;
             }
         } while (true);
+    }
+
+    public void setFilteredPets(List<String> filteredPets) {
+        this.filteredPets = filteredPets;
     }
 }
