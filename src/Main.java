@@ -1,10 +1,6 @@
 import collector.PetCollector;
 import repository.PetRepository;
-import service.ListAllPets;
-import service.ListSpecificPet;
-import service.PrintMenu;
-import service.RegisterPet;
-import util.ReadFile;
+import service.*;
 
 import java.util.Scanner;
 
@@ -16,20 +12,13 @@ public class Main {
 
         PetCollector petCollector = new PetCollector(scanner);
 
-        RegisterPet registerService = new RegisterPet(petCollector, petRepository);
-
-        ReadFile readFile = new ReadFile("");
-
-        ListAllPets listAllPets = new ListAllPets(readFile);
-
-        ListSpecificPet listSpecificPet = new ListSpecificPet(petCollector, readFile, scanner);
+        PetService petService = new PetService(petCollector, petRepository, scanner);
 
         PrintMenu mainMenu = new PrintMenu();
-        mainMenu.setRegisterService(registerService);
-        mainMenu.setListAllPetsService(listAllPets);
-        mainMenu.setListSpecificPet(listSpecificPet);
+        mainMenu.setPetService(petService);
 
         mainMenu.printInitialMenu();
+
 
     }
 }
