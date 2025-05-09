@@ -7,11 +7,13 @@ public class PrintMenu {
 
     private RegisterPet registerService;
     private ListAllPets listAllPetsService;
+    private ListSpecificPet listSpecificPet;
 
     public void setRegisterService(RegisterPet registerService) {
         this.registerService = registerService;
     }
     public void setListAllPetsService(ListAllPets listAllPetsService) { this.listAllPetsService = listAllPetsService; }
+    public void setListSpecificPet(ListSpecificPet listSpecificPet) {this.listSpecificPet = listSpecificPet; }
 
 
     public void printInitialMenu() {
@@ -51,7 +53,7 @@ public class PrintMenu {
                         listAllPetsService.listPets();
                         break;
                     case 5:
-                        System.out.println("List one");
+                        listSpecificPet.listPetsByCriteria();
                         break;
                     case 6:
                         System.out.println("Exiting...");
