@@ -219,12 +219,11 @@ public class PetService {
                             if (petInfo.contains(petType)) {
                                 System.out.println(petNumber + " - " + petInfo);
                                 filteredPets.add(s);
-                                System.out.println(filteredPets.getFirst());
                                 petNumber++;
                             }
                         }
 
-                        break;
+                        return;
                     case 2:
                         userChoicePetGender = petCollector.collectPetGender();
                         petGender = userChoicePetGender == 1 ? "MALE" : "FEMALE";
@@ -254,7 +253,7 @@ public class PetService {
                             System.out.println("No pet was found with this/these criteria(s).");
                         }
 
-                        break;
+                        return;
                     case 3:
                         System.out.println("Enter the age: ");
                         petAge = (petCollector.collectPetAge()).toString();
@@ -288,7 +287,7 @@ public class PetService {
                             System.out.println("No pet was found with this/these criteria(s).");
                         }
 
-                        break;
+                        return;
                     case 4:
                         System.out.println("Enter the weight: ");
                         petWeight = ((petCollector.collectPetWeight()).toString() + "kg");
@@ -322,7 +321,7 @@ public class PetService {
                             System.out.println("No pet was found with this/these criteria(s).");
                         }
 
-                        break;
+                        return;
                     case 5:
                         System.out.println("Enter the breed: ");
                         petBreed = petCollector.collectPetBreed();
@@ -354,7 +353,7 @@ public class PetService {
                             System.out.println("No pet was found with this/these criteria(s).");
                         }
 
-                        break;
+                        return;
                     case 6:
                         petStreet = petCollector.collectPetStreet();
                         petAddressNumber = (petCollector.collectPetAddressNumber()).toString();
@@ -400,7 +399,7 @@ public class PetService {
                             System.out.println("No pet was found with this/these criteria(s).");
                         }
 
-                        break;
+                        return;
                     case 7:
                         System.out.println("Enter the name: ");
                         petName = petCollector.collectName();
@@ -436,7 +435,7 @@ public class PetService {
                             System.out.println("No pet was found with this/these criteria(s).");
                         }
 
-                        break;
+                        return;
                     case 8:
                         System.out.println("Enter the age: ");
                         petAge =  (petCollector.collectPetAge()).toString();
@@ -475,7 +474,7 @@ public class PetService {
                             System.out.println("No pet was found with this/these criteria(s).");
                         }
 
-                        break;
+                        return;
                     case 9:
                         System.out.println("Enter the name: ");
                         petName = petCollector.collectName();
@@ -511,7 +510,7 @@ public class PetService {
                             System.out.println("No pet was found with this/these criteria(s).");
                         }
 
-                        break;
+                        return;
                     case 10:
                         System.out.println("Enter the breed: ");
                         petBreed = petCollector.collectPetBreed();
@@ -551,7 +550,7 @@ public class PetService {
                         }
 
 
-                        break;
+                        return;
                     case 11:
                         System.out.println("Enter the breed: ");
                         petBreed = petCollector.collectPetBreed();
@@ -585,7 +584,7 @@ public class PetService {
                             System.out.println("No pet was found with this/these criteria(s).");
                         }
 
-                        break;
+                        return;
                     default:
                         throw new RuntimeException("Please, provide a valid value.");
                 }
