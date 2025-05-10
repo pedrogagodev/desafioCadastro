@@ -42,7 +42,7 @@ public class PrintMenu {
                         System.out.println("Update");
                         break;
                     case 3:
-                        System.out.println("Delete ");
+                        petService.deletePet();
                         break;
                     case 4:
                         petService.listAllPets();
