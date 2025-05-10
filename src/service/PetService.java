@@ -26,7 +26,7 @@ public class PetService {
     private final PetCollector petCollector;
     private final PetRepository petRepository;
     private final Scanner scanner;
-    private List<String> filteredPets;
+    private List<Path> filteredPets;
     private static final Logger logger = Logger.getLogger(PetService.class.getName());
 
 
@@ -218,7 +218,7 @@ public class PetService {
                             String petInfo = petTxt.getFormattedData(s.toString());
                             if (petInfo.contains(petType)) {
                                 System.out.println(petNumber + " - " + petInfo);
-                                filteredPets.add(petInfo);
+                                filteredPets.add(s);
                                 System.out.println(filteredPets.getFirst());
                                 petNumber++;
                             }
@@ -244,7 +244,7 @@ public class PetService {
 
                             if (petInfo.contains(petType) && matcher.find()) {
                                 System.out.println(petNumber + " - " + petInfo);
-                                filteredPets.add(petInfo);
+                                filteredPets.add(s);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -278,7 +278,7 @@ public class PetService {
 
                             if (petInfo.contains(petType) && ageMatcher.find()) {
                                 System.out.println(petNumber + " - " + petInfo);
-                                filteredPets.add(petInfo);
+                                filteredPets.add(s);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -312,7 +312,7 @@ public class PetService {
 
                             if (petInfo.contains(petType) && weightMatcher.find()) {
                                 System.out.println(petNumber + " - " + petInfo);
-                                filteredPets.add(petInfo);
+                                filteredPets.add(s);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -344,7 +344,7 @@ public class PetService {
 
                             if (petInfo.contains(petType) && breedMatcher.find()) {
                                 System.out.println(petNumber + " - " + petInfo);
-                                filteredPets.add(petInfo);
+                                filteredPets.add(s);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -390,7 +390,7 @@ public class PetService {
                                     neighborhoodMatcher.find()) {
 
                                 System.out.println(petNumber + " - " + petInfo);
-                                filteredPets.add(petInfo);
+                                filteredPets.add(s);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -426,7 +426,7 @@ public class PetService {
 
                             if (petInfo.contains(petType) && ageMatcher.find()) {
                                 System.out.println(petNumber + " - " + petInfo);
-                                filteredPets.add(petInfo);
+                                filteredPets.add(s);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -465,7 +465,7 @@ public class PetService {
                                     weightMatcher.find()) {
 
                                 System.out.println(petNumber + " - " + petInfo);
-                                filteredPets.add(petInfo);
+                                filteredPets.add(s);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -501,7 +501,7 @@ public class PetService {
 
                             if (petInfo.contains(petType) && weightMatcher.find()) {
                                 System.out.println(petNumber + " - " + petInfo);
-                                filteredPets.add(petInfo);
+                                filteredPets.add(s);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -540,7 +540,7 @@ public class PetService {
                                     weightMatcher.find()) {
 
                                 System.out.println(petNumber + " - " + petInfo);
-                                filteredPets.add(petInfo);
+                                filteredPets.add(s);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -575,7 +575,7 @@ public class PetService {
 
                             if (petInfo.contains(petType) && breedMatcher.find() && genderMatcher.find()) {
                                 System.out.println(petNumber + " - " + petInfo);
-                                filteredPets.add(petInfo);
+                                filteredPets.add(s);
                                 petNumber++;
                                 itFound = true;
                             }
@@ -597,7 +597,12 @@ public class PetService {
         } while (true);
     }
 
-    public void setFilteredPets(List<String> filteredPets) {
+
+    public List<Path> getFilteredPets() {
+        return filteredPets;
+    }
+
+    public void setFilteredPets(List<Path> filteredPets) {
         this.filteredPets = filteredPets;
     }
 }
