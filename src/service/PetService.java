@@ -597,6 +597,36 @@ public class PetService {
     }
 
 
+    public void deletePet() {
+        Path path;
+        listPetsByCriteria();
+
+        System.out.println("Select the pet you want to delete from the system: ");
+        int userChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        List<Path> pets = this.getFilteredPets();
+
+        if (userChoice <= 0 || userChoice >= pets.size()) {
+            System.out.println("Invalid selection.");
+            return;
+        }
+
+        path = pets.get(userChoice - 1);
+
+        System.out.println("============== Delete ==============");
+        try {
+            System.out.println("Exists before delete: " + Files.exists(path));
+            Files.delete(path);
+            System.out.println("Exists after delete: " + Files.exists(path));
+            System.out.println("File deleted successfully");
+        } catch (IOException ex) {
+            System.out.println("Failed to delete the file: " + ex.getMessage());
+        }
+
+
+    }
+
     public List<Path> getFilteredPets() {
         return filteredPets;
     }
