@@ -8,14 +8,14 @@ import entity.enums.PetType;
 import repository.PetRepository;
 import util.ReadFile;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -596,6 +596,78 @@ public class PetService {
         } while (true);
     }
 
+    public void updatePet() {
+        Path path;
+        listPetsByCriteria();
+
+        System.out.println("Select the pet you want to update: ");
+        int userChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        List<Path> pets = this.getFilteredPets();
+
+        if (userChoice <= 0 || userChoice > pets.size()) {
+            System.out.println("Invalid selection.");
+            return;
+        }
+
+        path = pets.get(userChoice - 1);
+
+        ReadFile readFile = new ReadFile(path.toString());
+
+        Map<String, String> petAtt = readFile.getFormattedAttributes(path.toString());
+
+        System.out.println("Enter the name: ");
+        String name = petCollector.collectName();
+        if (!name.isEmpty()) {
+            petAtt.put("name", name);
+        }
+        PetAddress petAddress = new PetAddress(petCollector.collectPetStreet(), petCollector.collectPetAddressNumber(), petCollector.collectPetNeighborhood());
+        if (!petAddress.toString().isEmpty()) {
+            petAtt.put("address", petAddress.toString());
+        }
+        System.out.println("Enter the age: ");
+        String age = (petCollector.collectPetAge()).toString();
+        if (!age.isEmpty() && !age.equals("-1")) {
+            petAtt.put("age", age);
+        }
+        System.out.println("Enter the weight: ");
+        String weight = (petCollector.collectPetWeight()).toString();
+        if (!weight.isEmpty() && !weight.equals("-1.0") ) {
+            petAtt.put("weight", weight);
+        }
+        System.out.println("Enter the breed: ");
+        String breed = petCollector.collectPetBreed();
+        if (!breed.isEmpty()) {
+            petAtt.put("breed", (breed + "kg"));
+        }
+
+
+        System.out.println(petAtt);
+
+        File file = new File(path.toUri());
+        try(FileWriter fw = new FileWriter(file)) {
+            BufferedWriter br = new BufferedWriter(fw);
+            br.write("1 - " + petAtt.get("name"));
+            br.newLine();
+            br.write("2 - " + petAtt.get("type"));
+            br.newLine();
+            br.write("3 - " + petAtt.get("gender"));
+            br.newLine();
+            br.write("4 - " + petAtt.get("address"));
+            br.newLine();
+            br.write("5 - " + petAtt.get("age"));
+            br.newLine();
+            br.write("6 - " + petAtt.get("weight"));
+            br.newLine();
+            br.write("7 - " + petAtt.get("breed"));
+            br.newLine();
+            br.flush();
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, "Error reading file", ex);
+        }
+
+    }
 
     public void deletePet() {
         Path path;
