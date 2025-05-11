@@ -39,7 +39,7 @@ public class PrintMenu {
                         petService.registerPet();
                         break;
                     case 2:
-                        System.out.println("Update");
+                        petService.updatePet();
                         break;
                     case 3:
                         petService.deletePet();
