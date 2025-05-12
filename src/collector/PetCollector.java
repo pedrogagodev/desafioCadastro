@@ -83,7 +83,7 @@ public class PetCollector {
         do {
             System.out.println("Enter the number (or press ENTER to skip): ");
             String userInputNumber  = scanner.nextLine().trim();
-            if (userInputNumber.isEmpty()) return -1;
+            if (userInputNumber.isEmpty()) return null;
 
             number = Integer.parseInt(userInputNumber);
             if (PetValidator.isValidPetAddressNumber(number)) {
@@ -131,7 +131,7 @@ public class PetCollector {
 
         do {
             String userInputAge = scanner.nextLine().trim();
-            if (userInputAge.isEmpty()) return -1;
+            if (userInputAge.isEmpty()) return null;
             age = Integer.parseInt(userInputAge);
             if (PetValidator.isValidAge(age)) {
                 return age;
@@ -147,7 +147,7 @@ public class PetCollector {
         double weight;
         String userInputWeight = scanner.nextLine().trim();
 
-        if(userInputWeight.isEmpty()) return (double) -1;
+        if(userInputWeight.isEmpty()) return null;
 
         do {
             weight = Double.parseDouble(userInputWeight);
