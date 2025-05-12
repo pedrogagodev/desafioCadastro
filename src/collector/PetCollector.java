@@ -1,5 +1,7 @@
 package collector;
 
+import entity.enums.PetGender;
+import entity.enums.PetType;
 import validator.PetValidator;
 
 import java.util.Scanner;
@@ -26,31 +28,31 @@ public class PetCollector {
         }
     }
 
-    public int collectPetType() {
+    public PetType collectPetType() {
         while (true) {
             System.out.println("1 - DOG / 2 - CAT");
             int typeChoice = scanner.nextInt();
             scanner.nextLine();
             if (typeChoice == 1) {
-                return typeChoice;
+                return PetType.DOG;
             } else if (typeChoice == 2) {
-                return typeChoice;
+                return PetType.CAT;
             } else {
                 System.out.println("Invalid option, please try again");
             }
         }
     }
 
-    public int collectPetGender() {
+    public PetGender collectPetGender() {
         while (true) {
             System.out.println("1 - MALE / 2 - FEMALE");
             int genderChoice = scanner.nextInt();
             scanner.nextLine();
 
             if (genderChoice == 1) {
-               return genderChoice;
+               return PetGender.MALE;
             } else if (genderChoice == 2) {
-                return genderChoice;
+                return PetGender.FEMALE;
             } else {
                 System.out.println("Invalid option, please try again");
             }
