@@ -1,7 +1,9 @@
 package collector;
 
+import entity.PetAddress;
 import entity.enums.PetGender;
 import entity.enums.PetType;
+import exception.RequiredFieldException;
 import validator.PetValidator;
 
 import java.util.Scanner;
@@ -108,6 +110,20 @@ public class PetCollector {
             }
         }
     }
+
+    public PetAddress collectPetAddress() {
+        while (true) {
+            try {
+                String street = collectPetStreet();
+                int number = collectPetAddressNumber();
+                String neighborhood = collectPetNeighborhood();
+                return new PetAddress(street, number, neighborhood);
+            } catch (RequiredFieldException ex) {
+                System.out.println("Error: " + ex.getMessage() + " Please, try again.\n");
+            }
+        }
+    }
+
 
 
     public Integer collectPetAge() {
