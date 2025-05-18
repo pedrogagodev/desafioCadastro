@@ -14,14 +14,12 @@ import java.util.logging.Logger;
 public class FileRepository {
     private static final Logger logger = Logger.getLogger(FileRepository.class.getName());
 
-
     public void createFile(Pet pet) {
         String formattedPetName = pet.getName().replace(" ", "").toUpperCase();
         LocalDateTime dateTimeNow = LocalDateTime.now();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDate = dateTimeNow.format(myFormatObj);
         String date = formattedDate.replace("-", "").replace(" ", "T");
-
         String directory = "resources/registered-pets";
         String fileName = date + "-" + formattedPetName + ".txt";
 
@@ -44,9 +42,9 @@ public class FileRepository {
         br.newLine();
         br.write("4 - " + pet.getPetAddress());
         br.newLine();
-        br.write("5 - " + (pet.getPetAge() == -1 ? "NOT INFORMED" : pet.getPetAge() + " years"));
+        br.write("5 - " + (pet.getPetAge() == null ? "NOT INFORMED" : pet.getPetAge() + " years"));
         br.newLine();
-        br.write("6 - " + (pet.getPetWeight() == -1 ? "NOT INFORMED" : pet.getPetWeight() + "kg"));
+        br.write("6 - " + (pet.getPetWeight() == null ? "NOT INFORMED" : pet.getPetWeight() + "kg"));
         br.newLine();
         br.write("7 - " + (pet.getPetBreed().isEmpty() ? "NOT INFORMED" : pet.getPetBreed()));
         br.newLine();
