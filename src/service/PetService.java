@@ -43,7 +43,7 @@ public class PetService {
         searchStrategies.put(2, new GenderSearchStrategy());
         searchStrategies.put(3, new AgeSearchStrategy());
         searchStrategies.put(4, new WeightSearchStrategy());
-
+        searchStrategies.put(5, new BreedSearchStrategy());
     }
 
     private void processFormLine(int line, PetFormData formData) {
