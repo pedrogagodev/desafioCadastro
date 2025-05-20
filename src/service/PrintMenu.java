@@ -1,13 +1,21 @@
 package service;
 
+import collector.PetCollector;
+import repository.FileRepository;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class PrintMenu {
 
-    private PetService petService;
+    private final PetCollector petCollector;
+    private final FileRepository fileRepository;
 
-    public void setPetService(PetService petService) {
+    private final PetService petService;
+
+    public PrintMenu(PetCollector petCollector, FileRepository fileRepository, PetService petService) {
+        this.petCollector = petCollector;
+        this.fileRepository = fileRepository;
         this.petService = petService;
     }
 
@@ -48,7 +56,7 @@ public class PrintMenu {
                         petService.listAllPets();
                         break;
                     case 5:
-                        petService.listPetsByCriteria();
+                        petService.listPetsByCriteria(petCollector,fileRepository);
                         break;
                     case 6:
                         System.out.println("Exiting...");
