@@ -16,16 +16,18 @@ public class ReadFile {
         this.file = new File(pathname);
     }
 
-    public void printFile() {
-        try(FileReader fr = new FileReader(this.file)) {
-            int i;
-            while((i= fr.read()) != -1) {
-                System.out.print((char)i);
+    public List<String> readFile() {
+        List<String> lines = new ArrayList<>();
+        try(FileReader fr = new FileReader(this.file);
+            BufferedReader br = new BufferedReader(fr)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
             }
-
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error reading file", e);
         }
+        return lines;
     }
 
    public void printLine(int line) {
