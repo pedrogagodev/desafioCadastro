@@ -6,10 +6,15 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 public class FileRepository {
     private static final Logger logger = Logger.getLogger(FileRepository.class.getName());
@@ -49,6 +54,25 @@ public class FileRepository {
         br.write("7 - " + (pet.getPetBreed().isEmpty() ? "NOT INFORMED" : pet.getPetBreed()));
         br.newLine();
         return br;
+    }
+
+    public List<Path> searchByName(String name) {
+        Path searchDir = Paths.get("resources/registered-pets");
+        try(Stream<Path> stream = Files.find(
+                searchDir,
+                Integer.MAX_VALUE,
+                ((path, basicFileAttributes) -> {
+                    if(!basicFileAttributes.isRegularFile()) return false;
+                    String fileName = path.getFileName().toString();
+                    return fileName.contains(name.replace(" ", "").trim().toUpperCase());
+                }
+                ))) {
+            return stream.toList();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
     }
 
 }
