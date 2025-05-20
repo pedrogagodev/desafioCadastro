@@ -9,10 +9,7 @@ import entity.enums.PetType;
 import exception.InvalidInputException;
 import repository.FileRepository;
 import repository.PetRepository;
-import service.search.AgeSearchStrategy;
-import service.search.GenderSearchStrategy;
-import service.search.NameSearchStrategy;
-import service.search.PetSearchStrategy;
+import service.search.*;
 import util.ReadFile;
 
 import java.io.BufferedWriter;
@@ -45,6 +42,8 @@ public class PetService {
         searchStrategies.put(1, new NameSearchStrategy());
         searchStrategies.put(2, new GenderSearchStrategy());
         searchStrategies.put(3, new AgeSearchStrategy());
+        searchStrategies.put(4, new WeightSearchStrategy());
+
     }
 
     private void processFormLine(int line, PetFormData formData) {
