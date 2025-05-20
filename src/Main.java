@@ -1,4 +1,5 @@
 import collector.PetCollector;
+import repository.FileRepository;
 import repository.PetRepository;
 import service.*;
 
@@ -12,10 +13,11 @@ public class Main {
 
         PetCollector petCollector = new PetCollector(scanner);
 
-        PetService petService = new PetService(petCollector, petRepository, scanner);
+        FileRepository fileRepository = new FileRepository();
 
-        PrintMenu mainMenu = new PrintMenu();
-        mainMenu.setPetService(petService);
+        PetService petService = new PetService(petCollector, petRepository, fileRepository, scanner);
+
+        PrintMenu mainMenu = new PrintMenu(petCollector, fileRepository, petService);
 
         mainMenu.printInitialMenu();
 
