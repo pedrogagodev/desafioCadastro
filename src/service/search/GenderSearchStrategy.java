@@ -25,7 +25,7 @@ public class GenderSearchStrategy implements PetSearchStrategy {
     public List<Path> search(PetType petType, PetCollector collector, FileRepository fileRepository) {
         PetGender petGender = collector.collectPetGender();
         List<Path> allPets = fileRepository.listAllPaths();
-        List<Path> filteredByGenderPets = new ArrayList<>();
+        List<Path> filteredPets = new ArrayList<>();
         Pattern genderPattern = Pattern.compile("\\b" + petGender + "\\b", Pattern.CASE_INSENSITIVE);
         for (Path s : allPets) {
             ReadFile petTxt = new ReadFile(s.toString());
@@ -34,9 +34,9 @@ public class GenderSearchStrategy implements PetSearchStrategy {
             Matcher matcher = genderPattern.matcher(petInfo);
 
             if (matcher.find()) {
-                filteredByGenderPets.add(s);
+                filteredPets.add(s);
             }
         };
-        return Util.filterByType(filteredByGenderPets, petType);
+        return Util.filterByType(filteredPets, petType);
     }
 }
