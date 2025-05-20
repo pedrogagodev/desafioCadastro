@@ -9,6 +9,7 @@ import entity.enums.PetType;
 import exception.InvalidInputException;
 import repository.FileRepository;
 import repository.PetRepository;
+import service.search.GenderSearchStrategy;
 import service.search.NameSearchStrategy;
 import service.search.PetSearchStrategy;
 import util.ReadFile;
@@ -41,6 +42,8 @@ public class PetService {
         this.scanner = scanner;
         this.fileRepository = fileRepository;
         searchStrategies.put(1, new NameSearchStrategy());
+        searchStrategies.put(2, new GenderSearchStrategy());
+
     }
 
     private void processFormLine(int line, PetFormData formData) {
