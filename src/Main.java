@@ -1,7 +1,8 @@
 import collector.PetCollector;
+import repository.FileRepository;
 import repository.PetRepository;
-import service.PrintMenu;
-import service.RegisterPet;
+import service.*;
+
 import java.util.Scanner;
 
 public class Main {
@@ -12,12 +13,14 @@ public class Main {
 
         PetCollector petCollector = new PetCollector(scanner);
 
-        RegisterPet registerService = new RegisterPet(petCollector, petRepository);
+        FileRepository fileRepository = new FileRepository();
 
-        PrintMenu mainMenu = new PrintMenu();
-        mainMenu.setRegisterService(registerService);
+        PetService petService = new PetService(petCollector, petRepository, fileRepository, scanner);
+
+        PrintMenu mainMenu = new PrintMenu(petCollector, fileRepository, petService);
 
         mainMenu.printInitialMenu();
+
 
     }
 }

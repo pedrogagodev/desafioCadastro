@@ -1,16 +1,23 @@
 package service;
 
+import collector.PetCollector;
+import repository.FileRepository;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class PrintMenu {
 
-    private RegisterPet registerService;
+    private final PetCollector petCollector;
+    private final FileRepository fileRepository;
 
-    public void setRegisterService(RegisterPet registerService) {
-        this.registerService = registerService;
+    private final PetService petService;
+
+    public PrintMenu(PetCollector petCollector, FileRepository fileRepository, PetService petService) {
+        this.petCollector = petCollector;
+        this.fileRepository = fileRepository;
+        this.petService = petService;
     }
-
 
     public void printInitialMenu() {
         Scanner scanner = new Scanner(System.in);
@@ -37,19 +44,19 @@ public class PrintMenu {
 
                 switch (userChoice) {
                     case 1:
-                        registerService.collectPetData();
+                        petService.registerPet();
                         break;
                     case 2:
-                        System.out.println("Update");
+                        petService.updatePet();
                         break;
                     case 3:
-                        System.out.println("Delete");
+                        petService.deletePet();
                         break;
                     case 4:
-                        System.out.println("List all");
+                        petService.listAllPets();
                         break;
                     case 5:
-                        System.out.println("List one");
+                        petService.listPetsByCriteria(petCollector,fileRepository);
                         break;
                     case 6:
                         System.out.println("Exiting...");

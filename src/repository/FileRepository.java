@@ -6,22 +6,25 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 public class FileRepository {
     private static final Logger logger = Logger.getLogger(FileRepository.class.getName());
 
-
     public void createFile(Pet pet) {
         String formattedPetName = pet.getName().replace(" ", "").toUpperCase();
         LocalDateTime dateTimeNow = LocalDateTime.now();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDate = dateTimeNow.format(myFormatObj);
         String date = formattedDate.replace("-", "").replace(" ", "T");
-
         String directory = "resources/registered-pets";
         String fileName = date + "-" + formattedPetName + ".txt";
 
@@ -44,13 +47,46 @@ public class FileRepository {
         br.newLine();
         br.write("4 - " + pet.getPetAddress());
         br.newLine();
-        br.write("5 - " + (pet.getPetAge() == -1 ? "NOT INFORMED" : pet.getPetAge()));
+        br.write("5 - " + (pet.getPetAge() == null ? "NOT INFORMED" : pet.getPetAge() + " years"));
         br.newLine();
-        br.write("6 - " + (pet.getPetWeight() == -1 ? "NOT INFORMED" : pet.getPetWeight()));
+        br.write("6 - " + (pet.getPetWeight() == null ? "NOT INFORMED" : pet.getPetWeight() + "kg"));
         br.newLine();
         br.write("7 - " + (pet.getPetBreed().isEmpty() ? "NOT INFORMED" : pet.getPetBreed()));
         br.newLine();
         return br;
+    }
+
+    public List<Path> searchByName(String name) {
+        Path searchDir = Paths.get("resources/registered-pets");
+        try(Stream<Path> stream = Files.find(
+                searchDir,
+                Integer.MAX_VALUE,
+                ((path, basicFileAttributes) -> {
+                    if(!basicFileAttributes.isRegularFile()) return false;
+                    String fileName = path.getFileName().toString();
+                    return fileName.contains(name.replace(" ", "").trim().toUpperCase());
+                }
+                ))) {
+            return stream.toList();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<Path> listAllPaths() {
+        List<Path> texts = List.of();
+
+        try(Stream<Path> stream = Files.walk(Paths.get("resources/registered-pets"))) {
+            texts =
+                    stream.filter(Files::isRegularFile)
+                            .filter(path -> path.getFileName().toString().endsWith(".txt"))
+                            .toList();
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, "Error reading file", ex);
+        }
+        return texts;
     }
 
 }

@@ -1,5 +1,9 @@
 package collector;
 
+import entity.PetAddress;
+import entity.enums.PetGender;
+import entity.enums.PetType;
+import exception.RequiredFieldException;
 import validator.PetValidator;
 
 import java.util.Scanner;
@@ -26,31 +30,31 @@ public class PetCollector {
         }
     }
 
-    public int collectPetType() {
+    public PetType collectPetType() {
         while (true) {
             System.out.println("1 - DOG / 2 - CAT");
             int typeChoice = scanner.nextInt();
             scanner.nextLine();
             if (typeChoice == 1) {
-                return typeChoice;
+                return PetType.DOG;
             } else if (typeChoice == 2) {
-                return typeChoice;
+                return PetType.CAT;
             } else {
                 System.out.println("Invalid option, please try again");
             }
         }
     }
 
-    public int collectPetGender() {
+    public PetGender collectPetGender() {
         while (true) {
             System.out.println("1 - MALE / 2 - FEMALE");
             int genderChoice = scanner.nextInt();
             scanner.nextLine();
 
             if (genderChoice == 1) {
-               return genderChoice;
+               return PetGender.MALE;
             } else if (genderChoice == 2) {
-                return genderChoice;
+                return PetGender.FEMALE;
             } else {
                 System.out.println("Invalid option, please try again");
             }
@@ -79,7 +83,7 @@ public class PetCollector {
         do {
             System.out.println("Enter the number (or press ENTER to skip): ");
             String userInputNumber  = scanner.nextLine().trim();
-            if (userInputNumber.isEmpty()) return -1;
+            if (userInputNumber.isEmpty()) return null;
 
             number = Integer.parseInt(userInputNumber);
             if (PetValidator.isValidPetAddressNumber(number)) {
@@ -107,13 +111,27 @@ public class PetCollector {
         }
     }
 
+    public PetAddress collectPetAddress() {
+        while (true) {
+            try {
+                String street = collectPetStreet();
+                int number = collectPetAddressNumber();
+                String neighborhood = collectPetNeighborhood();
+                return new PetAddress(street, number, neighborhood);
+            } catch (RequiredFieldException ex) {
+                System.out.println("Error: " + ex.getMessage() + " Please, try again.\n");
+            }
+        }
+    }
+
+
 
     public Integer collectPetAge() {
         int age;
 
         do {
             String userInputAge = scanner.nextLine().trim();
-            if (userInputAge.isEmpty()) return -1;
+            if (userInputAge.isEmpty()) return null;
             age = Integer.parseInt(userInputAge);
             if (PetValidator.isValidAge(age)) {
                 return age;
@@ -129,7 +147,7 @@ public class PetCollector {
         double weight;
         String userInputWeight = scanner.nextLine().trim();
 
-        if(userInputWeight.isEmpty()) return (double) -1;
+        if(userInputWeight.isEmpty()) return null;
 
         do {
             weight = Double.parseDouble(userInputWeight);
