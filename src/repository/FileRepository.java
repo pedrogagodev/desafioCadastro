@@ -75,4 +75,18 @@ public class FileRepository {
         return null;
     }
 
+    public List<Path> listAllPaths() {
+        List<Path> texts = List.of();
+
+        try(Stream<Path> stream = Files.walk(Paths.get("resources/registered-pets"))) {
+            texts =
+                    stream.filter(Files::isRegularFile)
+                            .filter(path -> path.getFileName().toString().endsWith(".txt"))
+                            .toList();
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, "Error reading file", ex);
+        }
+        return texts;
+    }
+
 }
